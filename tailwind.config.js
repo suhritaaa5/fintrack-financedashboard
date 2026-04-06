@@ -33,5 +33,20 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".scrollbar-none": {
+          /* IE, Edge */
+          "-ms-overflow-style": "none",
+          /* Firefox */
+          "scrollbar-width": "none",
+        },
+        ".scrollbar-none::-webkit-scrollbar": {
+          /* Chrome, Safari, Opera */
+          display: "none",
+        },
+      });
+    },
+  ],
 };

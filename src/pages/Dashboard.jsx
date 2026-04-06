@@ -2,61 +2,84 @@ import React from "react";
 
 const Dashboard = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* CARD 1 */}
-      <div className="h-64 p-4 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-orange-200/30 dark:border-slate-700/40">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* CARD 1 (Boxes) */}
+      <div
+        className="min-h-[220px] sm:min-h-[250px] lg:min-h-[280px] p-4 
+                bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl 
+                border border-orange-200/30 dark:border-slate-700/40"
+      >
         <div className="grid grid-cols-2 gap-4 h-full">
           {/* BOX 1 */}
-          <div className="bg-white/90 dark:bg-slate-800/60 rounded-xl flex items-center justify-center text-sm font-medium text-slate-700 dark:text-white">
-            Box 1
+          <div
+            className="bg-gradient-to-r from-orange-300 to-yellow-200 dark:from-orange-500 dark:to-yellow-200
+                    rounded-xl flex flex-col items-center justify-center text-sm font-medium 
+                    text-slate-700 dark:text-white p-4 shadow-md
+                    transition-transform duration-200 transform hover:scale-105 hover:brightness-110"
+          >
+            <p className="text-xs">Revenue</p>
+            <p className="text-lg font-semibold">₹12,345</p>
           </div>
 
           {/* BOX 2 */}
-          <div className="bg-white/90 dark:bg-slate-800/60 rounded-xl flex items-center justify-center text-sm font-medium text-slate-700 dark:text-white">
-            Box 2
+          <div
+            className="bg-gradient-to-r from-orange-300 to-yellow-200 dark:from-orange-500 dark:to-yellow-200
+                    rounded-xl flex flex-col items-center justify-center text-sm font-medium 
+                    text-slate-700 dark:text-white p-4 shadow-md
+                    transition-transform duration-200 transform hover:scale-105 hover:brightness-110"
+          >
+            <p className="text-xs">Expenses</p>
+            <p className="text-lg font-semibold">₹7,890</p>
           </div>
 
           {/* BOX 3 */}
-          <div className="bg-white/90 dark:bg-slate-800/60 rounded-xl flex items-center justify-center text-sm font-medium text-slate-700 dark:text-white">
-            Box 3
+          <div
+            className="bg-gradient-to-r from-orange-300 to-yellow-200 dark:from-orange-500 dark:to-yellow-200
+                    rounded-xl flex flex-col items-center justify-center text-sm font-medium 
+                    text-slate-700 dark:text-white p-4 shadow-md
+                    transition-transform duration-200 transform hover:scale-105 hover:brightness-110"
+          >
+            <p className="text-xs">Profit</p>
+            <p className="text-lg font-semibold">₹4,455</p>
           </div>
 
           {/* BOX 4 */}
-          <div className="bg-white/90 dark:bg-slate-800/60 rounded-xl flex items-center justify-center text-sm font-medium text-slate-700 dark:text-white">
-            Box 4
+          <div
+            className="bg-gradient-to-r from-orange-300 to-yellow-200 dark:from-orange-500 dark:to-yellow-200
+                    rounded-xl flex flex-col items-center justify-center text-sm font-medium 
+                    text-slate-700 dark:text-white p-4 shadow-md
+                    transition-transform duration-200 transform hover:scale-105 hover:brightness-110"
+          >
+            <p className="text-xs">Savings</p>
+            <p className="text-lg font-semibold">₹2,500</p>
           </div>
         </div>
       </div>
-
-      {/* CARD 2 */}
-      <div className="h-64 p-5 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-orange-200/30 dark:border-slate-700/40 flex items-center justify-center">
-        <p className="text-slate-500 dark:text-slate-400">balance chart</p>
+      {/* CARD 2 (Balance Chart) */}
+      <div className="min-h-[220px] sm:min-h-[250px] lg:min-h-[280px] p-5 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-orange-200/30 dark:border-slate-700/40 flex items-center justify-center">
+        <p className="text-slate-500 dark:text-slate-400">Balance Chart</p>
       </div>
 
-      {/* CARD 3 (TALL PIE CHART) */}
-      <div className="row-span-4 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-slate-200/30 dark:border-slate-700/40 p-5 flex flex-col">
+      {/* CARD 3 (Pie Chart) */}
+      <div className="row-span-1 sm:row-span-2 lg:row-span-4 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-slate-200/30 dark:border-slate-700/40 p-5 flex flex-col">
         <h3 className="text-sm font-semibold text-slate-700 dark:text-white mb-4">
           Spending Breakdown
         </h3>
         <div className="flex-1 flex items-center justify-center">Pie Chart</div>
       </div>
 
-      {/* ✅ CARD 4 (BIG WIDE UNDER 1 & 2) */}
-      <div className="col-span-2 row-auto bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-slate-200/30 dark:border-slate-700/40 p-5 flex flex-col">
-        monthly budget
+      {/* CARD 4 (Monthly Budget) */}
+      <div className="col-span-1 sm:col-span-2 lg:col-span-2 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-slate-200/30 dark:border-slate-700/40 p-5 flex flex-col">
+        Monthly Budget
       </div>
 
-      {/* ✅ CARD 4-2 (BIG WIDE UNDER 1 & 2) */}
-      <div className="col-span-2 row-auto bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-slate-200/30 dark:border-slate-700/40 p-5 flex flex-col">
+      {/* CARD 5 (Transactions) */}
+      <div className="col-span-1 sm:col-span-2 lg:col-span-2 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-slate-200/30 dark:border-slate-700/40 p-5 flex flex-col">
         <h3 className="text-sm font-semibold text-slate-700 dark:text-white mb-4">
           Recent Transactions
         </h3>
-        <div className="flex-1 flex items-center justify-center">
-          Transactions Table
-        </div>
+        <div className="flex-1 overflow-x-auto">Transactions Table</div>
       </div>
-
-
     </div>
   );
 };
