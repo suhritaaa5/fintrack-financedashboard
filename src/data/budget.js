@@ -42,3 +42,10 @@ export const getCurrentBudget = (transactions) => {
     percentageUsed,
   };
 };
+export const updateBudget = (amount) => {
+  localStorage.setItem("budget", JSON.stringify(amount));
+
+  return {
+    success: true,
+  };
+};
