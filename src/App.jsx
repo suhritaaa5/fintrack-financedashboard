@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
-import Insights from './pages/Insights'
 import Transactions from './pages/Transactions'
 import Layout from './layout/Layout'
 import { Toaster } from "react-hot-toast";
@@ -17,7 +16,7 @@ const App = () => {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/insights" element={<Insights />} />
+            
             <Route path="/transactions" element={<Transactions />} />
           </Route>
         </Routes>

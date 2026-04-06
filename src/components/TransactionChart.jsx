@@ -84,7 +84,7 @@ export default function TransactionChart({ transactions }) {
           Transaction Overview
         </CardTitle>
         <Select value={dateRange} onValueChange={setDateRange}>
-          <SelectTrigger className="w-[140px] bg-orange-50 dark:bg-slate-700 border dark:border-slate-600 shadow-md rounded-md text-slate-900 dark:text-slate-200">
+          <SelectTrigger className="w-[140px] bg-orange-50 dark:bg-slate-700 border  border-slate-600 shadow-md rounded-md text-slate-900 dark:text-slate-200">
             <SelectValue placeholder="Select range" />
           </SelectTrigger>
 

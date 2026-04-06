@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   ArrowRightLeft,
-  ChartLine,
+  
   Landmark,
   LayoutDashboard,
   Lightbulb,
@@ -19,11 +19,7 @@ const menuItems = [
     icon: ArrowRightLeft,
     label: "Transactions",
   },
-  {
-    id: "insights",
-    icon: ChartLine,
-    label: "Insights",
-  },
+  
 ];
 
 const Sidebar = ({ collapsed, onToggle, currentPage, onPageChange }) => {
