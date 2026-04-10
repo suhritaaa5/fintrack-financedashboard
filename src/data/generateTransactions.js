@@ -28,8 +28,6 @@ const CATEGORIES = {
   ],
 };
 
-
-
 const getNextDate = (date, interval) => {
   if (interval === "DAILY") return addDays(date, 1);
   if (interval === "WEEKLY") return addWeeks(date, 1);
@@ -58,9 +56,8 @@ export const generateTransactions = (days = 90) => {
     const perDay = Math.floor(Math.random() * 3) + 1;
 
     for (let j = 0; j < perDay; j++) {
-     
       const type = Math.random() < 0.4 ? "INCOME" : "EXPENSE";
-       const { category, amount } = getRandomCategory(type);
+      const { category, amount } = getRandomCategory(type);
 
       const recurring = Math.random() < 0.15;
       const intervals = ["DAILY", "WEEKLY", "MONTHLY", "YEARLY"];
@@ -70,22 +67,20 @@ export const generateTransactions = (days = 90) => {
 
       // ✅ BASE TRANSACTION
       const transaction = {
-  id: crypto.randomUUID(),
-  type,
-  amount,
-  description:
-    type === "INCOME"
-      ? `Received ${category}`
-      : `Paid for ${category}`,
-  date: date,
-  category,
-  status: "COMPLETED",
-  recurring,
-  recurringInterval,
-  nextRecurringDate: recurring
-    ? getNextDate(date, recurringInterval)
-    : null,
-};
+        id: crypto.randomUUID(),
+        type,
+        amount,
+        description:
+          type === "INCOME" ? `Received ${category}` : `Paid for ${category}`,
+        date: date.toISOString(),
+        category,
+        status: "COMPLETED",
+        recurring,
+        recurringInterval,
+        nextRecurringDate: recurring
+          ? getNextDate(date, recurringInterval)?.toISOString()
+          : null,
+      };
 
       transactions.push(transaction);
       totalBalance += type === "INCOME" ? amount : -amount;
@@ -94,21 +89,18 @@ export const generateTransactions = (days = 90) => {
       if (recurring) {
         let nextDate = getNextDate(date, recurringInterval);
 
-        while (nextDate && !isBefore(today, nextDate)) {
+        while (nextDate && nextDate <= today) {
           const recurringTransaction = {
             ...transaction,
             id: crypto.randomUUID(),
-            date: nextDate,
+           date: nextDate.toISOString(),
 
-            
-            nextRecurringDate: getNextDate(nextDate, recurringInterval),
-            
+            nextRecurringDate: getNextDate(nextDate, recurringInterval)?.toISOString(),
           };
 
           transactions.push(recurringTransaction);
           totalBalance += type === "INCOME" ? amount : -amount;
 
-          
           nextDate = getNextDate(nextDate, recurringInterval);
         }
       }

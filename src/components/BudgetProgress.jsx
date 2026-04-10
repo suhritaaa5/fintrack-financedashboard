@@ -9,7 +9,10 @@ export function BudgetProgress({ budget, currentExpenses, percentageUsed }) {
   const [newBudget, setNewBudget] = useState(budget ? budget.toString() : "");
 
   const [isLoading, setIsLoading] = useState(false);
-
+  const formatINR = (value) =>
+    new Intl.NumberFormat("en-IN", {
+      maximumFractionDigits: 0,
+    }).format(value);
   const handleUpdateBudget = async () => {
     const amount = parseFloat(newBudget);
 
@@ -41,9 +44,9 @@ export function BudgetProgress({ budget, currentExpenses, percentageUsed }) {
     <div className="flex flex-col gap-3">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-2xl sm:text-base font-bold text-slate-800 dark:text-white">
-          Monthly Budget
-        </h3>
+        <p className="text-sm sm:text-xl font-bold text-slate-800 dark:text-white">
+  Monthly Budget
+</p>
       </div>
 
       {/* Budget + Edit */}
@@ -75,7 +78,7 @@ export function BudgetProgress({ budget, currentExpenses, percentageUsed }) {
           <>
             <p className="text-lg sm:text-sm text-slate-800 dark:text-slate-200">
               {budget
-                ? `₹${currentExpenses.toFixed(2)} of ₹${budget.toFixed(2)} spent`
+                ? `₹${formatINR(currentExpenses)} of ₹${formatINR(budget)} spent`
                 : "No budget set"}
             </p>
 
@@ -96,13 +99,12 @@ export function BudgetProgress({ budget, currentExpenses, percentageUsed }) {
         <div className="space-y-2">
           <div className="w-full h-2 sm:h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
             <div
-              className={`h-full rounded-full transition-all duration-500 ease-in-out ${
-                percentageUsed >= 90
-                  ? "bg-gradient-to-r from-red-500 to-red-600"
-                  : percentageUsed >= 75
-                    ? "bg-gradient-to-r from-yellow-400 to-orange-400"
-                    : "bg-gradient-to-r from-green-400 to-emerald-500"
-              }`}
+              className={`h-full rounded-full transition-all duration-500 ease-in-out ${percentageUsed >= 90
+                ? "bg-gradient-to-r from-red-500 to-red-600"
+                : percentageUsed >= 75
+                  ? "bg-gradient-to-r from-yellow-400 to-orange-400"
+                  : "bg-gradient-to-r from-green-400 to-emerald-500"
+                }`}
               style={{ width: `${Math.min(percentageUsed, 100)}%` }}
             />
           </div>

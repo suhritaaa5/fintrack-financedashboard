@@ -10,15 +10,22 @@ import { useApp } from "../context/AppContext";
 const RecentTransactions = () => {
   const { transactions } = useApp();
 
+  const formatINR = (value) =>
+    new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
   const recentTransactions = [...transactions]
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5);
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-2xl sm:text-base font-bold text-slate-800 dark:text-white">Recent Transactions</CardTitle>
-      </CardHeader>
+      <CardTitle className="text-base sm:text-xl font-bold text-slate-800 dark:text-white">
+        Recent Transactions
+      </CardTitle>
 
       <CardContent>
         {recentTransactions.length === 0 ? (
@@ -39,18 +46,17 @@ const RecentTransactions = () => {
                 </div>
 
                 <div
-                  className={`flex items-center ${
-                    t.type === "EXPENSE"
-                      ? "text-red-500"
-                      : "text-green-500"
-                  }`}
+                  className={`flex items-center ${t.type === "EXPENSE"
+                    ? "text-red-500"
+                    : "text-green-500"
+                    }`}
                 >
                   {t.type === "EXPENSE" ? (
                     <ArrowDownRight className="mr-1 h-4 w-4" />
                   ) : (
                     <ArrowUpRight className="mr-1 h-4 w-4" />
                   )}
-                  ${t.amount.toFixed(2)}
+                  {formatINR(t.amount)}
                 </div>
               </div>
             ))}

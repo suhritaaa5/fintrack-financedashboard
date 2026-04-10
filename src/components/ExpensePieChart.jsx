@@ -14,48 +14,65 @@ import { useApp } from "../context/AppContext";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 const COLORS = [
-  "#f97316", // orange-500
-  "#fb923c", // orange-400
-  "#fdba74", // orange-300
-  "#fde68a", // yellow-300
-  "#fcd34d", // yellow-400
-  "#fbbf24", // amber-400
+  "#f97316",
+  "#fb923c",
+  "#fdba74",
+  "#fde68a",
+  "#fcd34d",
+  "#fbbf24",
 ];
 
 const ExpensePieChart = () => {
   const { transactions } = useApp();
-
   const currentDate = new Date();
+  const [isDark, setIsDark] = React.useState(false);
 
-  // ✅ Filter current month expenses
-  const currentMonthExpenses = transactions.filter((t) => {
-    const d = new Date(t.date);
-    return (
-      t.type === "EXPENSE" &&
-      d.getMonth() === currentDate.getMonth() &&
-      d.getFullYear() === currentDate.getFullYear()
-    );
+React.useEffect(() => {
+  const checkDark = () => {
+    setIsDark(document.documentElement.classList.contains("dark"));
+  };
+
+  checkDark();
+
+  const observer = new MutationObserver(checkDark);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
   });
 
-  // ✅ Group by category
-  const expensesByCategory = currentMonthExpenses.reduce((acc, t) => {
-    acc[t.category] = (acc[t.category] || 0) + t.amount;
-    return acc;
-  }, {});
+  return () => observer.disconnect();
+}, []);
+  const pieData = React.useMemo(() => {
+    const expensesByCategory = (transactions || [])
+      .filter((t) => {
+        const d = new Date(t.date);
+        if (isNaN(d)) return false;
 
-  const pieData = Object.entries(expensesByCategory).map(
-    ([name, value]) => ({
+        return (
+          t.type === "EXPENSE" &&
+          d.getMonth() === currentDate.getMonth() &&
+          d.getFullYear() === currentDate.getFullYear()
+        );
+      })
+      .reduce((acc, t) => {
+        acc[t.category] = (acc[t.category] || 0) + t.amount;
+        return acc;
+      }, {});
+
+    return Object.entries(expensesByCategory).map(([name, value]) => ({
       name,
       value,
-    })
-  );
+    }));
+  }, [transactions]);
 
-  const total = pieData.reduce((sum, item) => sum + item.value, 0);
+  const total = React.useMemo(
+    () => pieData.reduce((sum, item) => sum + item.value, 0),
+    [pieData]
+  );
 
   return (
     <Card className="bg-transparent shadow-none border-none">
-      {/* HEADER */}
-      <CardHeader className="flex flex-row items-center justify-between pb-4">
+      <CardHeader className="flex flex-row items-center justify-center pb-4">
         <CardTitle className="text-lg font-bold text-slate-800 dark:text-white">
           Spending Breakdown
         </CardTitle>
@@ -70,14 +87,6 @@ const ExpensePieChart = () => {
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                {/* 🔥 Smooth gradient feel */}
-                <defs>
-                  <linearGradient id="pieGlow" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#fb923c" />
-                    <stop offset="100%" stopColor="#facc15" />
-                  </linearGradient>
-                </defs>
-
                 <Pie
                   data={pieData}
                   dataKey="value"
@@ -85,15 +94,12 @@ const ExpensePieChart = () => {
                   outerRadius={85}
                   paddingAngle={3}
                   stroke="none"
-                  isAnimationActive
-                  animationDuration={900}
                 >
                   {pieData.map((_, i) => (
                     <Cell key={i} fill={COLORS[i % COLORS.length]} />
                   ))}
                 </Pie>
 
-                {/* ✅ CENTER TEXT (premium touch) */}
                 <text
                   x="50%"
                   y="50%"
@@ -104,32 +110,31 @@ const ExpensePieChart = () => {
                   ₹{new Intl.NumberFormat("en-IN").format(total)}
                 </text>
 
-                {/* ✅ Tooltip (MATCHED STYLE) */}
                 <Tooltip
-                  formatter={(value) =>
-                    `₹${new Intl.NumberFormat("en-IN").format(value)}`
-                  }
-                  contentStyle={{
-                    backgroundColor: "rgba(255,255,255,0.9)",
-                    backdropFilter: "blur(6px)",
-                    border: "1px solid rgba(255,165,0,0.2)",
-                    borderRadius: "12px",
-                    boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
-                  }}
-                  labelStyle={{
-                    color: "#334155",
-                    fontWeight: 500,
-                  }}
-                  itemStyle={{
-                    color: "#334155",
-                  }}
-                />
+  formatter={(value, name) => [
+    `₹${new Intl.NumberFormat("en-IN").format(value)}`,
+    name,
+  ]}
+  contentStyle={{
+    backgroundColor: "#fff7ed", // always orange-50
+    border: "1px solid rgba(255,165,0,0.3)",
+    borderRadius: "10px",
+    color: "#0f172a", // slate-900
+    backdropFilter: "blur(6px)",
+    boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+  }}
+  itemStyle={{
+    color: "#0f172a",
+  }}
+  labelStyle={{
+    color: "#0f172a",
+  }}
+  wrapperStyle={{ zIndex: 1000 }}
+/>
 
-                {/* ✅ Legend (clean like chart) */}
                 <Legend
-                  verticalAlign="bottom"
                   formatter={(value) => (
-                    <span className="text-slate-700 dark:text-slate-400 text-xs">
+                    <span className="text-slate-800 dark:text-slate-400 text-xs font-medium">
                       {value}
                     </span>
                   )}

@@ -29,6 +29,7 @@ const DATE_RANGES = {
 };
 
 export default function BalanceChart({ transactions }) {
+  console.log("Transactions received:", transactions);
   const [dateRange, setDateRange] = useState("1M");
 
   const filteredData = useMemo(() => {
@@ -41,11 +42,12 @@ export default function BalanceChart({ transactions }) {
       ? startOfDay(subDays(now, range.days))
       : startOfDay(new Date(0));
 
-    const filtered = transactions.filter(
-      (t) =>
-        new Date(t.date) >= startDate &&
-        new Date(t.date) <= endOfDay(now),
-    );
+    const filtered = transactions.filter((t) => {
+      const txnDate = new Date(t.date);
+      if (isNaN(txnDate)) return false;
+
+      return txnDate >= startDate && txnDate <= endOfDay(now);
+    });
 
     const grouped = filtered.reduce((acc, t) => {
       const key = format(new Date(t.date), "yyyy-MM-dd");
@@ -61,13 +63,21 @@ export default function BalanceChart({ transactions }) {
       return acc;
     }, {});
 
-    return Object.values(grouped)
-      .map((day) => ({
+    const sorted = Object.values(grouped).sort(
+      (a, b) => new Date(a.sortKey) - new Date(b.sortKey)
+    );
+
+    let runningBalance = 0;
+
+    return sorted.map((day) => {
+      runningBalance = Number((runningBalance + (day.income - day.expense)).toFixed(2));
+
+      return {
         date: day.date,
-        balance: day.income - day.expense,
+        balance: runningBalance,
         sortKey: day.sortKey,
-      }))
-      .sort((a, b) => new Date(a.sortKey) - new Date(b.sortKey));
+      };
+    });
   }, [transactions, dateRange]);
 
   return (
@@ -82,7 +92,7 @@ export default function BalanceChart({ transactions }) {
         </CardTitle>
 
         <Select value={dateRange} onValueChange={setDateRange}>
-          <SelectTrigger className="w-[130px] bg-orange-50 dark:bg-slate-700 border border-slate-600 shadow-md rounded-md text-sm">
+          <SelectTrigger className="w-[130px] bg-orange-50 dark:bg-slate-700 border  border-slate-600 shadow-md rounded-md text-slate-900 dark:text-slate-200 text-sm">
             <SelectValue />
           </SelectTrigger>
 
@@ -91,7 +101,7 @@ export default function BalanceChart({ transactions }) {
               <SelectItem
                 key={key}
                 value={key}
-                className="cursor-pointer"
+                className="cursor-pointer text-slate-900 dark:text-slate-200 focus:bg-orange-200 dark:focus:bg-slate-700"
               >
                 {label}
               </SelectItem>
@@ -133,7 +143,9 @@ export default function BalanceChart({ transactions }) {
                   fontSize={10}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `₹${value}`}
+                  tickFormatter={(value) =>
+  new Intl.NumberFormat("en-IN").format(value)
+}
                 />
 
                 <Tooltip

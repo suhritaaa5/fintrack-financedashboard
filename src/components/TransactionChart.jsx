@@ -28,7 +28,13 @@ const DATE_RANGES = {
   "6M": { label: "Last 6 Months", days: 180 },
   ALL: { label: "All Time", days: null },
 };
+const INRFormatter = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+  maximumFractionDigits: 0,
+});
 
+const formatINR = (value) => INRFormatter.format(value);
 export default function TransactionChart({ transactions }) {
   const [dateRange, setDateRange] = useState("1M");
 
@@ -49,11 +55,15 @@ export default function TransactionChart({ transactions }) {
       const key = format(rawDate, "yyyy-MM-dd"); // ✅ real sortable key
       const label = format(rawDate, "MMM dd");
 
-      if (!acc[key])
-        acc[key] = { date: label, sortKey: key, income: 0, expense: 0 };
+      if (!acc[key]) {
+  acc[key] = { date: label, sortKey: key, income: 0, expense: 0 };
+}
 
-      if (transaction.type === "INCOME") acc[key].income += transaction.amount;
-      else acc[key].expense += transaction.amount;
+      if (transaction.type === "INCOME") {
+        acc[key].income += transaction.amount;
+      } else if (transaction.type === "EXPENSE") {
+        acc[key].expense += transaction.amount;
+      }
 
       return acc;
     }, {});
@@ -65,9 +75,9 @@ export default function TransactionChart({ transactions }) {
 
   const totals = useMemo(
     () =>
-      
+
       filteredData.reduce(
-        
+
         (acc, day) => ({
           income: acc.income + day.income,
           expense: acc.expense + day.expense,
@@ -108,7 +118,7 @@ export default function TransactionChart({ transactions }) {
               Total Income
             </p>
             <p className="text-lg font-bold text-green-600">
-              ${totals.income.toFixed(2)}
+              {formatINR(totals.income)}
             </p>
           </div>
           <div className="text-center">
@@ -116,7 +126,7 @@ export default function TransactionChart({ transactions }) {
               Total Expenses
             </p>
             <p className="text-lg font-bold text-red-600">
-              ${totals.expense.toFixed(2)}
+              {formatINR(totals.expense)}
             </p>
           </div>
           <div className="text-center">
@@ -124,13 +134,12 @@ export default function TransactionChart({ transactions }) {
               Net
             </p>
             <p
-              className={`text-lg font-bold ${
-                totals.income - totals.expense >= 0
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
+              className={`text-lg font-bold ${totals.income - totals.expense >= 0
+                ? "text-green-600"
+                : "text-red-600"
+                }`}
             >
-              ${(totals.income - totals.expense).toFixed(2)}
+              {formatINR(totals.income - totals.expense)}
             </p>
           </div>
         </div>
@@ -179,10 +188,11 @@ export default function TransactionChart({ transactions }) {
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `$${value}`}
+                  tickFormatter={formatINR}
+
                 />
                 <Tooltip
-                  formatter={(value, name) => [`$${value}`, name]}
+                  formatter={(value, name) => [formatINR(value), name]}
                   contentStyle={{
                     backgroundColor: "rgba(255,255,255,0.9)",
                     backdropFilter: "blur(6px)",

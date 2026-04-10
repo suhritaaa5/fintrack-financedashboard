@@ -133,31 +133,31 @@ const TransactionsTable = ({ transactions, isAdmin, setTransactions }) => {
     );
   };
 
-  
+
   const handleDelete = (id) => {
-  const toastId = toast.loading("Deleting...");
+    const toastId = toast.loading("Deleting...");
 
-  setTimeout(() => {
-    setTransactions((prev) => prev.filter((t) => t.id !== id));
+    setTimeout(() => {
+      setTransactions((prev) => prev.filter((t) => t.id !== id));
 
-    toast.success("Transaction deleted!", { id: toastId });
-  }, 500);
-};
+      toast.success("Transaction deleted!", { id: toastId });
+    }, 500);
+  };
 
   const handleBulkDelete = () => {
-  if (!window.confirm("Are you sure you want to delete selected transactions?")) return;
+    if (!window.confirm("Are you sure you want to delete selected transactions?")) return;
 
-  const toastId = toast.loading("Deleting...");
+    const toastId = toast.loading("Deleting...");
 
-  setTimeout(() => {
-    setTransactions((prev) =>
-      prev.filter((t) => !selectedIds.includes(t.id))
-    );
+    setTimeout(() => {
+      setTransactions((prev) =>
+        prev.filter((t) => !selectedIds.includes(t.id))
+      );
 
-    toast.success("Deleted successfully!", { id: toastId });
-    setSelectedIds([]);
-  }, 500);
-};
+      toast.success("Deleted successfully!", { id: toastId });
+      setSelectedIds([]);
+    }, 500);
+  };
 
   const handleClearFilters = () => {
     setSearchTerm("");
@@ -265,16 +265,16 @@ const TransactionsTable = ({ transactions, isAdmin, setTransactions }) => {
           {(searchTerm ||
             typeFilter !== "ALL" ||
             recurringFilter !== "ALL") && (
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={handleClearFilters}
-              title="Clear filters"
-              className="bg-orange-50 dark:bg-slate-400"
-            >
-              <X className="h-8 w-7  " />
-            </Button>
-          )}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleClearFilters}
+                title="Clear filters"
+                className="bg-orange-50 dark:bg-slate-400"
+              >
+                <X className="h-8 w-7  " />
+              </Button>
+            )}
         </div>
       </div>
 
@@ -291,7 +291,7 @@ const TransactionsTable = ({ transactions, isAdmin, setTransactions }) => {
                       onCheckedChange={handleSelectAll}
                       checked={
                         selectedIds.length ===
-                          filteredAndSortedTransactions.length &&
+                        filteredAndSortedTransactions.length &&
                         filteredAndSortedTransactions.length > 0
                       }
                     />
@@ -386,26 +386,25 @@ const TransactionsTable = ({ transactions, isAdmin, setTransactions }) => {
                     </TableCell>
                     <TableCell className=" w-[110px] capitalize">
                       <span
-                        className={`inline-flex justify-center  items-center w-full  px-2 py-1 rounded  text-slate-900  text-sm ${
-                          transaction.type === "EXPENSE"
+                        className={`inline-flex justify-center  items-center w-full  px-2 py-1 rounded  text-slate-900  text-sm ${transaction.type === "EXPENSE"
                             ? "bg-gradient-to-r from-orange-300 to-orange-600"
                             : "bg-gradient-to-r from-green-300 to-green-600"
-                        }`}
+                          }`}
                       >
                         {transaction.category}
                       </span>
                     </TableCell>
                     <TableCell
-                      className={` w-[80px] font-semibold tracking-tight whitespace-nowrap px-2 md:px-3 py-2 md:py-3 text-right ${
-                        transaction.type === "EXPENSE"
+                      className={` w-[80px] font-semibold tracking-tight whitespace-nowrap px-2 md:px-3 py-2 md:py-3 text-right ${transaction.type === "EXPENSE"
                           ? "text-red-500"
                           : "text-green-500"
-                      }`}
+                        }`}
                     >
                       {transaction.type === "EXPENSE" ? "-" : "+"}
-                      {new Intl.NumberFormat("en-US", {
+                      {new Intl.NumberFormat("en-IN", {
                         style: "currency",
-                        currency: "USD",
+                        currency: "INR",
+                        maximumFractionDigits: 0,
                       }).format(transaction.amount)}
                     </TableCell>
                     <TableCell className="w-[100px]">
@@ -419,7 +418,7 @@ const TransactionsTable = ({ transactions, isAdmin, setTransactions }) => {
                               <RefreshCw className="h-3 w-3" />
                               {
                                 RECURRING_INTERVALS[
-                                  transaction.recurringInterval
+                                transaction.recurringInterval
                                 ]
                               }
                             </Badge>

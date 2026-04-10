@@ -14,26 +14,25 @@ const AppProvider = ({ children }) => {
   const isAdmin = role === "admin";
 
   // ✅ NEW: Transactions logic (move from Layout here)
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState(() => {
+  const stored = localStorage.getItem("transactions");
 
-  useEffect(() => {
-    const stored = localStorage.getItem("transactions");
-    if (stored) {
-      setTransactions(JSON.parse(stored));
-    } else {
-      const generatedData = generateTransactions();
-      setTransactions(generatedData.transactions);
-      localStorage.setItem(
-        "transactions",
-        JSON.stringify(generatedData.transactions),
-      );
-    }
-  }, []);
+  if (stored) {
+    const parsed = JSON.parse(stored);
+    if (parsed.length > 0) return parsed;
+  }
 
-  useEffect(() => {
+  const generated = generateTransactions();
+  localStorage.setItem("transactions", JSON.stringify(generated.transactions));
+
+  return generated.transactions;
+});
+
+useEffect(() => {
+  if (transactions.length > 0) {
     localStorage.setItem("transactions", JSON.stringify(transactions));
-  }, [transactions]);
-
+  }
+}, [transactions]);
   return (
     <AppContext.Provider
       value={{
