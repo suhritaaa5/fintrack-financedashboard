@@ -1,7 +1,7 @@
 # FinTrack — Finance Dashboard UI
 ---
 ## Overview
-This is a finance dashboard that helps users track income, expenses, and spending patterns. It focuses on clean UI, responsive design, and interactive data visualization for keeping the track of the financial health
+This is a finance dashboard that helps users track income, expenses, and spending patterns. It focuses on clean UI, responsive design, and interactive data visualization for keeping the track of the financial health. Features a slate glass dark mode and a gradient-based orange–yellow light mode for a visually refined experience.
 ---
 ## Tech Stack
 - React
