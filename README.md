@@ -1,6 +1,6 @@
 # FinTrack — Finance Dashboard UI
 
-A dual theme modern finance dashboard UI built with React, simulating financial health with a strong focus on UX, data usability, and role-aware interactions.
+A dual theme modern finance dashboard UI, simulating financial health with a strong focus on UX, data usability, and role-aware interactions.
 
 ---
 
@@ -10,8 +10,8 @@ A modern frontend finance dashboard built with React, designed around real-world
 
 It features a dual-theme system:
 
-- A light theme with a warm orange–yellow gradient for an inviting, energetic feel
-- A dark theme inspired by slate-toned glassmorphism, offering a sleek and focused interface
+- A light theme with a warm orange–yellow gradient.
+- A dark theme inspired by slate-toned glassmorphism, offering a sleek and focused interface.
 
 The dashboard emphasizes clarity, accessibility, and intuitive data visualization, making complex financial information easy to interpret and act upon.
 
