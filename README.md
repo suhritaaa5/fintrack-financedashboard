@@ -1,5 +1,4 @@
 # FinTrack — Finance Dashboard UI
----
 
 ## Overview
 
@@ -17,7 +16,6 @@ The dashboard emphasizes clarity, accessibility, and intuitive data visualizatio
 ## 🚀 Live Demo
 
 🔗 **[Open FinTrack Dashboard](https://fintrack-finance-dashboard-six.vercel.app/)**
-
 
 ---
 
