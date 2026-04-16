@@ -1,5 +1,5 @@
 # FinTrack — Finance Dashboard UI
-
+---
 ## Overview
 
 A modern frontend finance dashboard built with React, designed around real-world UX/UI patterns, thoughtful product decisions, and a strong focus on data usability. The application incorporates role-aware design principles to ensure tailored experiences for different user types.
